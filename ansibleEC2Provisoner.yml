@@ -56,9 +56,7 @@
       debug:
         msg: "EC2 instance launched with IP {{ ec2.instances[0].public_ip_address }}"
 
-# ---------------------------------------------------------
-# Second play: Configure EC2 using SSM Run Command
-# ---------------------------------------------------------
+
 - name: Configure EC2 via SSM
   hosts: localhost
   connection: local
