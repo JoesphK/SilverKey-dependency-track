@@ -1,7 +1,6 @@
 [![Build Status](https://github.com/DependencyTrack/dependency-track/actions/workflows/ci-build.yaml/badge.svg)](https://github.com/DependencyTrack/dependency-track/actions?workflow=CI+Build)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2ecd06dab57438a9a55bc4a71c5a8ce)](https://www.codacy.com/gh/DependencyTrack/dependency-track/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DependencyTrack/dependency-track&amp;utm_campaign=Badge_Grade)
 [![Alpine](https://img.shields.io/badge/built%20on-Alpine-blue.svg)](https://github.com/stevespringett/Alpine)
-[![License][license-image]][Apache License 2.0]
 [![OWASP Flagship](https://img.shields.io/badge/owasp-flagship%20project-orange.svg)](https://www.owasp.org/index.php/OWASP_Dependency_Track_Project)
 [![Website](https://img.shields.io/badge/https://-dependencytrack.org-blue.svg)](https://dependencytrack.org/)
 [![Documentation](https://img.shields.io/badge/read-documentation-blue.svg)](https://docs.dependencytrack.org/)
@@ -18,6 +17,8 @@
 
 ![logo preview](https://raw.githubusercontent.com/DependencyTrack/branding/master/dt-logo.svg?sanitize=true)
 
+
+For the offical repository, please refer to: https://github.com/DependencyTrack/dependency-track
 
 Dependency-Track is an intelligent [Component Analysis] platform that allows organizations to
 identify and reduce risk in the software supply chain. Dependency-Track takes a unique
@@ -96,122 +97,30 @@ CI/CD environments.
 * Supports internally managed users, Active Directory/LDAP, and API Keys
 * Simple to install and configure. Get up and running in just a few minutes
 
-
 <hr>
+  
 
-![alt text](./docs/images/screenshots/dashboard.png)
+## Difference from the base repository
 
-### Quickstart (Docker Compose)
+This specific project runs with a custom github action script as it does the following.
+- It creates a docker image of this repository and deploys it to Amazon ECR.
+- Checks if there is a valid ECR image of this repository here: https://github.com/JoesphK/Container-DT-Frontend . The machine auto creation process fails otherwise.
+- If successful, it creates an EC2 instance, pulls both images and configures the application for you.
 
-```bash
-# Downloads the latest Docker Compose file
-curl -LO https://dependencytrack.org/docker-compose.yml
+---  
 
-# Starts the stack using Docker Compose
-docker-compose up -d
-```
-
-### Quickstart (Docker Swarm)
-
-```bash
-# Downloads the latest Docker Compose file
-curl -LO https://dependencytrack.org/docker-compose.yml
-
-# Initializes Docker Swarm (if not previously initialized)
-docker swarm init
-
-# Starts the stack using Docker Swarm
-docker stack deploy -c docker-compose.yml dtrack
-```
-
-### Quickstart (Manual Execution)
-
-```bash
-# Pull the image from the Docker Hub OWASP repo
-docker pull dependencytrack/bundled
-
-# Creates a dedicated volume where data can be stored outside the container
-docker volume create --name dependency-track
-
-# Run the bundled container with 8GB RAM on port 8080
-docker run -d -m 8192m -p 8080:8080 --name dependency-track -v dependency-track:/data dependencytrack/bundled
-```
-
-**NOTICE: Always use official binary releases in production.**
-
-## Distributions
-
-Dependency-Track has three distribution variants. They are:
-
-| Package    | Package Format          | Recommended | Supported | Docker | Download |
-|:-----------|:------------------------|:-----------:|:---------:|:------:|:--------:|
-| API Server | Executable WAR          |      ✅      |     ✅     |   ✅    |    ✅     |
-| Frontend   | Single Page Application |      ✅      |     ✅     |   ✅    |    ✅     |
-| Bundled    | Executable WAR          |      ❌      |    ☑️     |   ✅    |    ✅     |
-
-#### API Server
-
-The API Server contains an embedded Jetty server and all server-side functionality, but excludes the frontend user
-interface. This variant is new as of Dependency-Track v4.0.
-
-#### Frontend
-
-The [Frontend](https://github.com/DependencyTrack/frontend) is the user interface that is accessible in a web browser. The Frontend is a Single Page Application (SPA)
-that can be deployed independently of the Dependency-Track API Server. This variant is new as of Dependency-Track v3.8.
-
-#### Bundled
-
-The Bundled variant combines the API Server and the Frontend user interface. This variant was previously referred to as
-the executable war and was the preferred distribution from Dependency-Track v3.0 - v3.8. This variant is supported but
-deprecated and will be discontinued in a future release.
-
-#### Traditional
-
-The Traditional variant combines the API Server and the Frontend user interface and must be deployed to a Servlet
-container. This variant is not supported, deprecated, and will be discontinued in a future release.
-
-## Deploying on Kubernetes with Helm
-
-Refer to https://github.com/DependencyTrack/helm-charts.
-
-## Contributing
-
-Interested in contributing to Dependency-Track? Please check [`CONTRIBUTING.md`](./CONTRIBUTING.md) to see how you can help!
-
-## Resources
-
-* Website: <https://dependencytrack.org/>
-* Documentation: <https://docs.dependencytrack.org/>
-* Component Analysis: <https://owasp.org/www-community/Component_Analysis>
-
-## Community
-
-* Twitter: <https://dependencytrack.org/twitter>
-* YouTube: <https://dependencytrack.org/youtube>
-* Slack: <https://dependencytrack.org/slack> (Invite:  <https://dependencytrack.org/slack/invite>)
-* Discussion (Groups.io): <https://dependencytrack.org/discussion>
-
-## Copyright & License
-Dependency-Track is Copyright (c) OWASP Foundation. All Rights Reserved.
-
-Permission to modify and redistribute is granted under the terms of the
-[Apache License 2.0].
-
-Dependency-Track makes use of several other open source libraries. Please see
-the [notices] file for more information.
-
-  [National Vulnerability Database]: https://nvd.nist.gov
-  [GitHub Advisories]: https://www.github.com/advisories
-  [Sonatype OSS Index]: https://ossindex.sonatype.org
-  [Snyk]: https://snyk.io
-  [Trivy]: https://www.aquasec.com/products/trivy/
-  [OSV]: https://osv.dev
-  [VulnDB]: https://vulndb.cyberriskanalytics.com
-  [Risk Based Security]: https://www.riskbasedsecurity.com
-  [Component Analysis]: https://owasp.org/www-community/Component_Analysis
-  [Software Bill of Materials]: https://owasp.org/www-community/Component_Analysis#software-bill-of-materials-sbom
-  [CycloneDX]: https://cyclonedx.org
-  [license-image]: https://img.shields.io/badge/license-apache%20v2-brightgreen.svg
-  [Apache License 2.0]: https://github.com/DependencyTrack/dependency-track/blob/master/LICENSE.txt
-  [notices]: https://github.com/DependencyTrack/dependency-track/blob/master/NOTICES.txt
-  [Alpine]: https://github.com/stevespringett/Alpine
+## Additonal features
+- Easy of Deploy.  
+- Minimal input. Just define your AWS user credentials in the secrets and attach it to the project.  
+- Creates test machines for you to test your changes every time the script runs.
+- You can cancel the run of the custom machine or call it manually at any time.
+- Supports deployment over and ArgoCD.
+---     
+## How to use
+- Using the test machines way:
+  - simply ensure you have an ECR image of this project here: https://github.com/JoesphK/Container-DT-Frontend .
+  - Change the environment variables to be your AWS account and your own credentials.
+  - Whenever you are ready, click run the script and wait.
+  - Once done, open the machine on HTTP://<PUBLIC-IP>
+- Using the EKS cluster + ArgoCD
+  - Use this repository instead: https://github.com/JoesphK/Dependency-Track-ArgoCD-edition
