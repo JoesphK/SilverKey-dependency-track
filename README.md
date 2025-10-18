@@ -110,7 +110,7 @@ This specific project runs with a custom github action script as it does the fol
 ---  
 
 ## Additonal features
-- Easy of Deploy.  
+- Easy to Deploy.  
 - Minimal input. Just define your AWS user credentials in the secrets and attach it to the project.  
 - Creates test machines for you to test your changes every time the script runs.
 - You can cancel the run of the custom machine or call it manually at any time.
